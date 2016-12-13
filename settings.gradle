@@ -1,0 +1,4 @@
+rootProject.name = 'jxau'
+include 'core'
+include 'plugin'
+
