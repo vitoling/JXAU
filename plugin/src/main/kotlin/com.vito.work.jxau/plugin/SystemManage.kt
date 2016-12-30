@@ -1,8 +1,7 @@
 package com.vito.work.jxau.plugin
 
-import com.vito.work.jxau.plugin.domain_entity.PersonalScore
 import com.vito.work.jxau.core.DomainUrl
-import com.vito.work.jxau.core.invokeStandardAPI
+import com.vito.work.jxau.plugin.domain_entity.PersonalScore
 import org.apache.http.cookie.Cookie
 
 /**
@@ -19,7 +18,7 @@ const val PersonalScorePath = "/SystemManage/CJManage/GetXsCjByXh/"
 fun fetchPersonalScore(cookies: List<Cookie>): List<PersonalScore>? {
     val ticketCookie = cookies.lastOrNull { it.value.contains("ticket=") }
     val urlSuffix = ticketCookie?.name
-    val urlForScore = "${com.vito.work.jxau.core.DomainUrl}${PersonalScorePath}$urlSuffix"
+    val urlForScore = "$DomainUrl$PersonalScorePath$urlSuffix"
     val data: List<PersonalScore>? = com.vito.work.jxau.core.invokeStandardAPI(urlForScore, null, cookies)
     return data
 }

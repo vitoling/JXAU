@@ -1,5 +1,6 @@
 package com.vito.work.jxau.plugin
 
+import com.vito.work.jxau.core.DomainUrl
 import com.vito.work.jxau.plugin.domain_entity.PersonalTimetable
 import org.apache.http.cookie.Cookie
 import org.apache.http.message.BasicNameValuePair
@@ -19,11 +20,14 @@ fun fetchPersonalTimetable(cookies: List<Cookie>, term: Int): List<PersonalTimet
 
     val ticketCookie = cookies.lastOrNull { it.value.contains("ticket=") }
     val urlSuffix = ticketCookie?.name
-    val urlForPersonalSchedule = "${com.vito.work.jxau.core.DomainUrl}${PersonalTimetablePath}$urlSuffix"
+    val urlForPersonalSchedule = "$DomainUrl$PersonalTimetablePath$urlSuffix"
     val params = mutableListOf<BasicNameValuePair>()
-    params.add(BasicNameValuePair("xq", term.toString()))
-    params.add(BasicNameValuePair("start", 0.toString()))
-    params.add(BasicNameValuePair("limit", 1000.toString()))
+    params.apply {
+        add(BasicNameValuePair("xq", term.toString()))
+        add(BasicNameValuePair("start", 0.toString()))
+        add(BasicNameValuePair("limit", 1000.toString()))
+    }
+
     val data = com.vito.work.jxau.core.invokeStandardAPI<PersonalTimetable>(urlForPersonalSchedule, params, cookies)
     return data
 }
